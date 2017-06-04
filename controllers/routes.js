@@ -1,32 +1,49 @@
 const request     = require("request");
 const cheerio     = require("cheerio");
 const path        = require('path');
-
-const db = require('../models/mongo.js');
-
+const db          = require('../models/mongo.js');
+const ObjectID    = require('mongodb').ObjectID;
 
 var router = function(app) {
 
-  app.get("/scrape", function(req, res) {
+  app.get("/scrape/:target", function(req, res) {
+
+    var insertedId = null;
 
     console.log('scrape hit.');
 
-    request("https://losangeles.craigslist.org/search/mca?query=honda+xr", function(error, response, html) {
+    var search = {
+      target: req.params.target,
+      title: [],
+      price: [],
+      createdAt: Date.now()
+    }
+
+    db.collection.insertOne(search, function(err, res) {
+      if(err) console.log(err);
+      insertedId = res.insertedId;
+    });
+
+    var url = "https://losangeles.craigslist.org/search/sss?query=" + search.target;
+
+    request(url, function(error, response, html) {
 
       var $ = cheerio.load(html);
 
-      var result = [];
+      $("ul.rows li.result-row p.result-info").each(function(i, element) {
 
-      $("ul.rows li a span.result-price").each(function(i, element) {
+        var title = $(this).children(".result-title").text();
+        var price = $(this).children(".result-meta").children(".result-price").text().replace(/\$/g, '');
 
-        var price = $(this).text().replace(/\$/g, '');
-
-
-        result.push( parseFloat(price) );
+        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { title: title } } );
+        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { price: parseFloat(price) } } );
 
       });
 
-          res.send(result);
+
+
+
+          res.send('ok');
 
     });
 

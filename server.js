@@ -2,12 +2,11 @@
 const express     = require("express");
 const bodyParser 	= require("body-parser");
 const exphbs 			= require("express-handlebars");
+var mongo 			= require("./models/mongo.js");
 
 var app = express();
 
 var PORT = process.env.PORT || 8080;
-
-var db = require("./models/mongo.js");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,6 +20,11 @@ require("./controllers/routes.js")(app);
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.listen(PORT, function() {
-	console.log("App.listening on PORT " + PORT);
+
+mongo.connect(function () {
+
+	app.listen(PORT, function() {
+		console.log("App.listening on PORT " + PORT);
+	});
+
 });

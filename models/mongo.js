@@ -2,15 +2,27 @@ const MongoClient = require('mongodb').MongoClient;
 const assert      = require('assert');
 
 var url = 'mongodb://localhost:27017/scraper';
-var db = null;
-var collection = null;
+var mongo = {};
 
-MongoClient.connect(url, function(err, mongodb) {
-  console.log("Connected successfully to mongodb");
 
-  db = mongodb;
-  collection = db.collection('data');
+  module.exports = {
 
-});
+    connect: function(callback) {
 
-module.exports = collection;
+      MongoClient.connect(url, function(err, db) {
+        console.log("Connected successfully to mongodb");
+        module.exports.db = db;
+        module.exports.collection = db.collection('data');
+        callback();
+      });
+    },
+
+    getDb: function() {
+      return mongo.db;
+    },
+
+    getCol: function() {
+      return mongo.collection;
+    }
+
+  };
