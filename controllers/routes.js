@@ -41,7 +41,7 @@ var router = function(app) {
         db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { prices: parseFloat(price) } } );
 
       });
-        res.send('ok');
+        res.redirect('/all');
     });
   }),
 
@@ -49,7 +49,8 @@ var router = function(app) {
 
     db.collection.find({}).toArray(function( err, docs) {
 
-      docs.titles = JSON.stringify(docs[0].titles);
+      //docs.titles = JSON.stringify(docs[0].titles);
+
 
       res.render('all', { records: docs });
 

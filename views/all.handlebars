@@ -6,25 +6,28 @@
 
   <div class="mdl-card__title">
 
-    <canvas id="chart-{{this._id}}" width="800" height="400"></canvas>
+    <canvas id="chart-{{this._id}}" width="800" height="110"></canvas>
 
-    <h2 class="mdl-card__title-text">{{this.target}}</h2>
+    <!-- <h2 class="mdl-card__title-text"></h2> -->
   </div>
 
-  <div class="mdl-card__supporting-text">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Mauris sagittis pellentesque lacus eleifend lacinia...
-  </div>
+  <!-- <div class="mdl-card__supporting-text">
+
+  </div> -->
 
   <div class="mdl-card__actions mdl-card--border">
 
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Update
-    </a>
+    <span class="search-title"> {{this.target}} </span>
 
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Delete
-    </a>
+    <span>
+        <a class="buttoncolor mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          Update
+        </a>
+
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          Delete
+        </a>
+    </span>
 
   </div>
 
@@ -45,18 +48,28 @@ var myChart = new Chart(ctx, {
     data: {
         labels:  {{{ safeString this.titles }}},
         datasets: [{
-            label: '# of Votes',
+            label: 'Price',
             data: {{{ safeString this.prices }}},
+            backgroundColor: 'magenta',
             borderWidth: 1
         }]
     },
     options: {
+        hover: {
+          animationDuration: 0
+        },
+        legend: {
+          display: false
+        },
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero: true
                 }
-            }]
+            }],
+            xAxes: [{
+                display: false
+              }]
         }
     }
 });

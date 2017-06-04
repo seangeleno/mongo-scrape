@@ -1,0 +1,32 @@
+
+body {
+  background-color: black;
+}
+
+.demo-card-wide.mdl-card {
+  background: black;
+  width: 90%;
+}
+
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 180px;
+}
+
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.material-icons {
+  color: black;
+}
+
+.search-title {
+  color: white;
+  margin-left: 20px;
+  font-size: 24px;
+}
+
+.buttoncolor {
+  color: blue;
+}
