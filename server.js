@@ -1,8 +1,9 @@
 
-const express     = require("express");
-const bodyParser 	= require("body-parser");
-const exphbs 			= require("express-handlebars");
-var mongo 			= require("./models/mongo.js");
+const express = require("express");
+const bodyParser = require("body-parser");
+const handlebars = require('handlebars');
+const exphbs = require("express-handlebars");
+const mongo = require("./models/mongo.js");
 
 var app = express();
 
@@ -17,9 +18,16 @@ app.use(express.static("./public"));
 
 require("./controllers/routes.js")(app);
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  helpers: {
+    safeString : function(arr) {
+      return JSON.stringify(arr);
+    }
+  }
+}));
 
+app.set("view engine", "handlebars");
 
 mongo.connect(function () {
 

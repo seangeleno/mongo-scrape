@@ -3,6 +3,7 @@ const cheerio     = require("cheerio");
 const path        = require('path');
 const db          = require('../models/mongo.js');
 const ObjectID    = require('mongodb').ObjectID;
+const exphbs 			= require("express-handlebars");
 
 var router = function(app) {
 
@@ -14,9 +15,10 @@ var router = function(app) {
 
     var search = {
       target: req.params.target,
-      title: [],
-      price: [],
-      createdAt: Date.now()
+      titles: [],
+      prices: [],
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     }
 
     db.collection.insertOne(search, function(err, res) {
@@ -35,20 +37,25 @@ var router = function(app) {
         var title = $(this).children(".result-title").text();
         var price = $(this).children(".result-meta").children(".result-price").text().replace(/\$/g, '');
 
-        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { title: title } } );
-        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { price: parseFloat(price) } } );
+        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { titles: title } } );
+        db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { prices: parseFloat(price) } } );
 
       });
-
-
-
-
-          res.send('ok');
-
+        res.send('ok');
     });
+  }),
 
+  app.get('/all', function(req, res) {
 
-  });
+    db.collection.find({}).toArray(function( err, docs) {
+
+      docs.titles = JSON.stringify(docs[0].titles);
+
+      res.render('all', { records: docs });
+
+    })
+
+  })
 
 }
 
