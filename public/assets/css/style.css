@@ -3,9 +3,13 @@ body {
   background-color: black;
 }
 
+#main-container {
+  margin: 3% 3%;
+}
+
 .demo-card-wide.mdl-card {
   background: black;
-  width: 90%;
+  width: 100%;
 }
 
 .demo-card-wide > .mdl-card__title {
@@ -17,16 +21,29 @@ body {
   color: #fff;
 }
 
-.material-icons {
-  color: black;
+.favorite {
+  margin-left: 2%;
+}
+
+.unselected {
+  color: grey;
+}
+
+.selected {
+  color: magenta;
 }
 
 .search-title {
   color: white;
-  margin-left: 20px;
+  margin-left: 5%;
   font-size: 24px;
 }
 
-.buttoncolor {
-  color: blue;
+.search-updatedAt {
+  color: grey;
+  font-size: 16px;
+}
+
+.mdl-button.mdl-button--colored {
+  color: cyan;
 }

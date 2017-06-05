@@ -1,9 +1,10 @@
-const request     = require("request");
-const cheerio     = require("cheerio");
-const path        = require('path');
-const db          = require('../models/mongo.js');
-const ObjectID    = require('mongodb').ObjectID;
-const exphbs 			= require("express-handlebars");
+const request = require("request");
+const cheerio = require("cheerio");
+const path = require('path');
+const db = require('../models/mongo.js');
+const ObjectID = require('mongodb').ObjectID;
+const exphbs = require("express-handlebars");
+const moment = require("moment");
 
 var router = function(app) {
 
@@ -17,8 +18,9 @@ var router = function(app) {
       target: req.params.target,
       titles: [],
       prices: [],
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+      favorite: false,
+      createdAt: moment().calendar(),
+      updatedAt: moment().calendar()
     }
 
     db.collection.insertOne(search, function(err, res) {
@@ -49,14 +51,41 @@ var router = function(app) {
 
     db.collection.find({}).toArray(function( err, docs) {
 
-      //docs.titles = JSON.stringify(docs[0].titles);
-
-
       res.render('all', { records: docs });
 
     })
+  }),
 
+  app.post('/delete/:id', function(req, res) {
+
+    db.collection.deleteOne( { _id: ObjectID(req.params.id) }, function(err, result) {
+
+      if(result.result.ok === 1) {
+
+        res.send(true);
+
+      } else {
+        res.send(false);
+      };
+    })
+  }),
+
+  app.post('/favorite/:id/:toggle', function(req, res) {
+
+    var isFav = parseInt(req.params.toggle);
+
+    db.collection.updateOne( { _id: ObjectID(req.params.id) }, { $set: { favorite: isFav } }, function(err, result) {
+
+      if(result.result.ok === 1) {
+        res.send(true);
+
+      } else {
+        res.send(false);
+      };
+
+    });
   })
+
 
 }
 
