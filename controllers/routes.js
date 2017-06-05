@@ -18,11 +18,6 @@ var router = function(app) {
   }),
 
 
-  app.post('/search', function(req, res) {
-
-  }),
-
-
   app.get("/link/:id/:index", function(req, res) {
 
     console.log(req.params.id);
@@ -37,7 +32,7 @@ var router = function(app) {
   }),
 
 
-  app.get("/scrape/:target", function(req, res) {
+  app.post("/search", function(req, res) {
 
     var insertedId = null;
     var re = new RegExp("https:");
@@ -45,7 +40,7 @@ var router = function(app) {
     console.log('scrape hit.');
 
     var search = {
-      target: req.params.target,
+      target: req.body.search,
       titles: [],
       prices: [],
       links: [],
@@ -72,11 +67,7 @@ var router = function(app) {
         var price = $(this).children(".result-meta").children(".result-price").text().replace(/\$/g, '');
         var link = $(this).children("a").attr("href");
 
-        if( re.test(link) === false ) {
-
-          link = baseUrl + link;
-
-        }
+        if( re.test(link) === false ) link = baseUrl + link;
 
         db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { titles: title } } );
         db.collection.updateOne( { _id: ObjectID(insertedId) }, { $push: { prices: parseFloat(price) } } );

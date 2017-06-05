@@ -2,6 +2,17 @@
 
 <div id="searchbar">
 
+  <div id="loading" class="mdl-spinner mdl-js-spinner"></div>
+
+  <form action="/search" method="post">
+    <div class="mdl-textfield mdl-js-textfield">
+      <input class="mdl-textfield__input" type="text" name="search" id="scrape-input">
+      <label class="mdl-textfield__label" for="scrape-input">Search...</label>
+    </div>
+
+    <button type="submit" class="mdl-button mdl-button--colored mdl-js-button" for="scrape"></button>
+  </form>
+
 </div>
 
 

@@ -7,6 +7,31 @@ body {
   margin: 3% 3% 0% 0%;
 }
 
+#searchbar {
+  margin: 0% 0% 0% 5%;
+  height: 90px;
+  display: inline-flex;
+}
+
+#loading {
+  margin: 5% 5% 0% 0%;
+}
+
+.go-button {
+  color: white;
+    font-size: 32px;
+}
+
+.mdl-textfield__input {
+  font-size: 32px;
+  color: white;
+}
+
+.mdl-textfield__label {
+  font-size: 30px;
+  color: grey;
+}
+
 .demo-card-wide.mdl-card {
   background: black;
   width: 100%;
