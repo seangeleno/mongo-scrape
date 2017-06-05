@@ -1,49 +1,69 @@
 
 
-{{#each records}}
-
-<div id="card-{{ this._id }}" class="demo-card-wide mdl-card mdl-shadow--2dp">
-
-  <div class="mdl-card__title">
-
-    <canvas id="chart-{{this._id}}" width="800" height="110"></canvas>
-
-  </div>
-
-  <div class="mdl-card__actions mdl-card--border">
-
-    <span class="search-title"> {{this.target}} </span>
-    <span class="search-updatedAt"> {{this.updatedAt}} </span>
-
-        <button value= "{{ this._id }}" class="update buttoncolor mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          Update
-        </button>
-
-        <button value= "{{ this._id }}" class="delete mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          Delete
-        </button>
-
-        <button value= "{{ this._id }}" class="favorite mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-
-          {{#if this.favorite}}
-
-            <i id="fav-{{ this._id }}" class="selected material-icons">favorite</i>
-
-          {{else}}
-
-            <i id="fav-{{ this._id }}" class="unselected material-icons">favorite</i>
-
-          {{/if}}
-
-        </button>
-  </div>
+<div id="searchbar">
 
 </div>
 
 
+{{#each records}}
+
+<li id="card-{{ this._id }}" >
+
+  <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+
+    <div class="mdl-card__title">
+
+      <canvas id="{{this._id}}" width="800" height="110"></canvas>
+
+    </div>
+
+    <div class="mdl-card__actions mdl-card--border">
+
+      <span class="search-title"> {{this.target}} </span>
+      <span class="search-updatedAt"> {{this.updatedAt}} </span>
+
+          <button value= "{{ this._id }}" class="update buttoncolor mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            Update
+          </button>
+
+          <button value= "{{ this._id }}" class="delete mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            Delete
+          </button>
+
+          <button value= "{{ this._id }}" class="favorite mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+
+            {{#if this.favorite}}
+
+              <i id="fav-{{ this._id }}" class="selected material-icons">favorite</i>
+
+            {{else}}
+
+              <i id="fav-{{ this._id }}" class="unselected material-icons">favorite</i>
+
+            {{/if}}
+
+          </button>
+    </div>
+
+  </div>
+
+</li>
+
 <script>
 
-var ctx = document.getElementById("chart-{{this._id}}").getContext('2d');
+graphClickEvent = function(event, arr) {
+
+  var id = event.target.id;
+  var index = arr[0]._index;
+
+  $.get('/link/'+ id + '/' + index, function(res) {
+    console.log(res);
+    window.open(res, "_parent");
+  });
+
+};
+
+var ctx = document.getElementById("{{this._id}}").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -56,6 +76,7 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        onClick: graphClickEvent,
         hover: {
           animationDuration: 0
         },

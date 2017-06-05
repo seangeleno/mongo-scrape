@@ -26,14 +26,13 @@ $(document).ready(function() {
       console.log(res);
 
       if(res) {
-
         if(newFavState === '1') $('#fav-' + id).addClass('selected').removeClass('unselected');
-
         if(newFavState === '0') $('#fav-' + id).removeClass('selected').addClass('unselected');
-
       }
 
-
+      else {
+        console.log('error during favorite selection.');
+      }
 
     });
   })

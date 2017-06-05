@@ -14,6 +14,7 @@ var mongo = {};
         module.exports.db = db;
         module.exports.collection = db.collection('data');
         callback();
+
       });
     },
 
