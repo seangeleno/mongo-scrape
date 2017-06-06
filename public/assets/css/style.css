@@ -8,13 +8,21 @@ body {
 }
 
 #searchbar {
-  margin: 0% 0% 0% 5%;
-  height: 90px;
+  margin: 0% 0% 0% 2%;
+  height: 70px;
   display: inline-flex;
 }
 
 #loading {
   margin: 5% 5% 0% 0%;
+}
+
+#show-favs {
+
+}
+
+.viewoption {
+  margin: 3% 0%;
 }
 
 .go-button {

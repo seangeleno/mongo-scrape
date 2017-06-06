@@ -11,12 +11,16 @@ var router = function(app) {
   app.get('/all', function(req, res) {
 
     db.collection.find({}).toArray(function( err, docs) {
-
       res.render('all', { records: docs });
-
     })
   }),
 
+  app.get('/favs', function(req, res) {
+
+    db.collection.find({favorite: 1}).toArray(function( err, docs) {
+      res.render('favs', { records: docs });
+    })
+  }),
 
   app.get("/link/:id/:index", function(req, res) {
 
@@ -44,7 +48,7 @@ var router = function(app) {
       titles: [],
       prices: [],
       links: [],
-      favorite: false,
+      favorite: 0,
       createdAt: moment().calendar(),
       updatedAt: moment().calendar()
     }
