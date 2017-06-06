@@ -8,7 +8,7 @@ const moment = require("moment");
 
 var router = function(app) {
 
-  app.get('/all', function(req, res) {
+  app.get('/', function(req, res) {
 
     db.collection.find({}).toArray(function( err, docs) {
       res.render('all', { records: docs });
@@ -79,7 +79,7 @@ var router = function(app) {
 
       });
 
-        res.redirect('/all');
+        res.redirect('/');
 
     });
   }),
